@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Réponds en 30 secondes — Erwan Sixty · 60 Tour</title>
+  <meta name="description" content="Dernier appel ! Confirme ta présence au 60 Tour d'Erwan en 30 secondes chrono. Sarzeau, 28 juillet → 2 août 2026." />
+  <meta name="robots" content="noindex" />
+  <meta property="og:title" content="⏳ Dernier appel — Erwan Sixty · 60 Tour" />
+  <meta property="og:description" content="Réponds en 30 secondes chrono. Sarzeau · 28 juillet → 2 août 2026." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://erwan60-apps.netlify.app/reponse/" />
+  <meta property="og:image" content="https://erwan60-apps.netlify.app/reponse/og-relance.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23E87722'/%3E%3Ctext x='32' y='42' font-family='Arial Black' font-size='26' font-weight='900' fill='%23000' text-anchor='middle'%3E60%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Oswald:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../shared/tokens.css" />
+  <style>
+    .view { display: none; }
+    .view.active { display: block; }
+    .wrap { padding: 26px 22px 34px; max-width: 460px; margin: 0 auto; text-align: center; }
+
+    .urgency {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(232,119,34,0.12); border: 1px solid rgba(232,119,34,0.5);
+      color: var(--c-orange); border-radius: 999px;
+      font-family: var(--f-cond); font-weight: 600; font-size: 0.78rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 7px 16px; margin-bottom: 4px;
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(232,119,34,0.35); } 50% { box-shadow: 0 0 0 8px rgba(232,119,34,0); } }
+
+    .answer-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 22px; }
+    .answer {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      width: 100%; padding: 18px;
+      border-radius: 14px; cursor: pointer;
+      font-family: var(--f-cond); font-weight: 700; font-size: 1.15rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      border: 2px solid var(--c-border-2);
+      background: var(--c-surface); color: var(--c-white);
+    }
+    .answer:hover, .answer:focus-visible { transform: translateY(-2px); outline: none; }
+    .answer.oui { background: var(--c-orange); border-color: var(--c-orange); color: #000; box-shadow: 0 0 34px rgba(232,119,34,0.4); }
+    .answer.oui:hover { box-shadow: 0 8px 44px rgba(232,119,34,0.55); }
+    .answer.peutetre:hover { border-color: var(--c-orange); }
+    .answer.non:hover { border-color: #666; }
+
+    .steps { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-text-mute); margin-bottom: 14px; }
+    .autocomplete { position: relative; }
+    .ac-list {
+      position: absolute; left: 0; right: 0; top: 100%; z-index: 20;
+      background: var(--c-surface); border: 1px solid var(--c-border-2); border-radius: 0 0 10px 10px;
+      max-height: 200px; overflow-y: auto; text-align: left;
+    }
+    .ac-item { padding: 10px 14px; cursor: pointer; font-size: 0.95rem; }
+    .ac-item:hover { background: rgba(232,119,34,0.15); }
+    .hint { font-size: 0.78rem; color: var(--c-text-mute); margin: -8px 0 12px; text-align: left; }
+    .error-box {
+      background: rgba(155,27,27,0.18); border: 1px solid var(--c-tango);
+      color: #ffb3b3; border-radius: 8px; padding: 10px 14px; font-size: 0.88rem; margin-bottom: 14px;
+      display: none; text-align: left;
+    }
+    .error-box.show { display: block; }
+    .chosen {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--c-black); border: 2px solid var(--c-orange); border-radius: 10px;
+      font-family: var(--f-cond); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 10px 18px; margin-bottom: 20px; font-size: 0.95rem;
+    }
+    .confirm-emoji { font-size: 3.4rem; }
+    .countdown-note { font-family: var(--f-serif); font-style: italic; color: var(--c-text-soft); font-size: 1.02rem; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="poster">
+    <!-- Étape 1 · la réponse -->
+    <section class="view active" id="view-answer">
+      <header class="hero" style="min-height:260px">
+        <div class="sun" aria-hidden="true"></div>
+        <div class="urgency">⏳ Dernier appel</div>
+        <h1 class="hero-title">Tu viens<br>au 60 Tour&nbsp;?</h1>
+        <p class="hero-sub">Erwan Sixty · Sarzeau · 28 juillet → 2 août</p>
+        <hr class="divider" />
+      </header>
+      <div class="info-band">
+        <p class="tagline">Erwan boucle l'organisation — réponds en 30 secondes chrono.</p>
+      </div>
+      <div class="wrap">
+        <div class="answer-btns">
+          <button class="answer oui" data-reponse="oui">🎉 Oui, je viens !</button>
+          <button class="answer peutetre" data-reponse="peutetre">🤔 Je ne sais pas encore</button>
+          <button class="answer non" data-reponse="non">😢 Non, je ne peux pas</button>
+        </div>
+      </div>
+      <p class="footer-note">Erwan Sixty · 60 Tour de la Presqu'île de Rhuys</p>
+    </section>
+
+    <!-- Étape 2 · identité + téléphone -->
+    <section class="view" id="view-form">
+      <div class="wrap" style="padding-top:38px">
+        <p class="steps">Étape 2 / 2</p>
+        <div class="chosen" id="chosenLabel"></div>
+        <div class="error-box" id="formError" role="alert"></div>
+        <form id="rsvpForm" novalidate style="text-align:left">
+          <div class="field autocomplete">
+            <label for="whoInput">Ton prénom</label>
+            <input type="search" id="whoInput" placeholder="Tape ton prénom…" autocomplete="off" required />
+            <div class="ac-list" id="acList" hidden></div>
+          </div>
+          <p class="hint" id="whoHint"></p>
+          <div id="newGuestFields" hidden>
+            <div class="field">
+              <label for="ngNom">Ton nom</label>
+              <input type="text" id="ngNom" maxlength="60" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="phoneInput">Ton numéro de téléphone</label>
+            <input type="text" id="phoneInput" inputmode="tel" placeholder="06 12 34 56 78" maxlength="20" required />
+          </div>
+          <button type="submit" class="btn" id="submitBtn" style="width:100%; margin-top:6px">J'envoie ma réponse →</button>
+          <button type="button" class="btn btn-ghost" data-back style="width:100%; margin-top:10px">← Changer ma réponse</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Étape 3 · merci -->
+    <section class="view" id="view-done">
+      <div class="wrap" style="padding-top:60px; padding-bottom:60px">
+        <div class="confirm-emoji" id="doneEmoji">🎉</div>
+        <h2 class="section-title" style="margin-top:14px" id="doneTitle">C'est noté !</h2>
+        <p class="countdown-note" id="doneNote"></p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    "use strict";
+    const $ = (s) => document.querySelector(s);
+    const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+    const state = { reponse: null, guests: [], selectedGuest: null, demo: false };
+    const LABELS = { oui: "🎉 Oui, je viens !", peutetre: "🤔 Je ne sais pas encore", non: "😢 Non, je ne peux pas" };
+
+    function show(id) {
+      document.querySelectorAll(".view").forEach((v) => v.classList.remove("active"));
+      $("#view-" + id).classList.add("active");
+      window.scrollTo(0, 0);
+    }
+
+    fetch("/.netlify/functions/rsvp")
+      .then((r) => { if (!r.ok) throw 0; return r.json(); })
+      .then((d) => { state.guests = d.guests; })
+      .catch(() => { state.demo = true; });
+
+    document.querySelectorAll(".answer").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        state.reponse = btn.dataset.reponse;
+        $("#chosenLabel").textContent = LABELS[state.reponse];
+        show("form");
+        setTimeout(() => $("#whoInput").focus(), 200);
+      }));
+    document.querySelector("[data-back]").addEventListener("click", () => show("answer"));
+
+    const input = $("#whoInput"), list = $("#acList");
+    input.addEventListener("input", () => {
+      state.selectedGuest = null;
+      $("#newGuestFields").hidden = true;
+      $("#whoHint").textContent = "";
+      const q = input.value.trim().toLowerCase();
+      if (q.length < 1) { list.hidden = true; return; }
+      const matches = state.guests
+        .filter((g) => (g.prenom + " " + g.nom).toLowerCase().includes(q)).slice(0, 8);
+      let html = matches.map((g) =>
+        `<div class="ac-item" data-id="${esc(g.id)}">${esc(g.prenom)} ${esc(g.nom !== g.prenom ? g.nom : "")}</div>`).join("");
+      html += `<div class="ac-item" data-id="__new__">✍️ Je ne suis pas dans la liste</div>`;
+      list.innerHTML = html;
+      list.hidden = false;
+      list.querySelectorAll(".ac-item").forEach((item) =>
+        item.addEventListener("mousedown", (e) => {
+          e.preventDefault();
+          if (item.dataset.id === "__new__") {
+            $("#newGuestFields").hidden = false;
+            $("#whoHint").textContent = "Pas de souci — ajoute ton nom ci-dessous.";
+          } else {
+            const g = state.guests.find((x) => x.id === item.dataset.id);
+            state.selectedGuest = g;
+            input.value = `${g.prenom} ${g.nom !== g.prenom ? g.nom : ""}`.trim();
+            $("#whoHint").textContent = "✔ Trouvé dans la liste des invités";
+          }
+          list.hidden = true;
+        }));
+    });
+    input.addEventListener("blur", () => setTimeout(() => { list.hidden = true; }, 150));
+
+    function showError(m) { const b = $("#formError"); b.textContent = m; b.classList.add("show"); }
+
+    $("#rsvpForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      $("#formError").classList.remove("show");
+
+      const phone = $("#phoneInput").value.trim();
+      if (phone.replace(/\D/g, "").length < 8) { showError("Ton numéro de téléphone semble incomplet."); return; }
+      if (!state.selectedGuest && input.value.trim().length < 2) { showError("Dis-nous qui tu es 😉"); return; }
+
+      const payload = { reponse: state.reponse, phone };
+      if (state.selectedGuest) payload.guestId = state.selectedGuest.id;
+      else payload.newGuest = { prenom: input.value.trim(), nom: $("#ngNom").value.trim() };
+
+      const btn = $("#submitBtn");
+      btn.disabled = true; btn.textContent = "Envoi…";
+      try {
+        if (!state.demo) {
+          const resp = await fetch("/.netlify/functions/rsvp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const result = await resp.json();
+          if (!resp.ok) throw new Error(result.error || "Erreur inconnue");
+        }
+        const done = {
+          oui: ["🎉", "C'est noté, à très vite !", "Erwan est ravi — rendez-vous le 28 juillet à Sarzeau. Pense à choisir ta mission coup de main !"],
+          peutetre: ["🤞", "C'est noté !", "Erwan croise les doigts — tiens-le au courant dès que tu sais."],
+          non: ["💙", "Merci d'avoir répondu", "Tu vas manquer au 60 Tour… mais Erwan pense bien à toi."],
+        }[state.reponse];
+        $("#doneEmoji").textContent = done[0];
+        $("#doneTitle").textContent = done[1];
+        $("#doneNote").textContent = done[2];
+        show("done");
+      } catch (err) {
+        showError(err.message || "L'envoi a échoué. Réessaie dans un instant.");
+      } finally {
+        btn.disabled = false; btn.textContent = "J'envoie ma réponse →";
+      }
+    });
+  </script>
+</body>
+</html>

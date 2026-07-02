@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Relance RSVP — OG 1200×630</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&family=Oswald:wght@600;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body { background: #000; color: #fff; font-family: 'Roboto', sans-serif; position: relative; }
+  .glow {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 110% 70% at 24% 46%, rgba(232,119,34,0.5) 0%, rgba(160,70,10,0.25) 38%, transparent 66%),
+      linear-gradient(to bottom, rgba(0,25,60,0.16), transparent 45%);
+  }
+  .sun {
+    position: absolute; left: 190px; top: 300px;
+    width: 150px; height: 75px; border-radius: 150px 150px 0 0;
+    background: linear-gradient(to top, #ffd76e, #ffb347);
+    box-shadow: 0 0 110px 40px rgba(255,179,71,0.4);
+    opacity: 0.85;
+  }
+  .content { position: absolute; inset: 0; padding: 64px 70px; display: flex; flex-direction: column; }
+  .top { display: flex; align-items: center; gap: 24px; }
+  .badge-60 {
+    width: 92px; height: 92px; border-radius: 50%;
+    background: rgba(0,0,0,0.55); border: 3px solid #E87722;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 40px; color: #E87722;
+    box-shadow: 0 0 44px rgba(232,119,34,0.5);
+  }
+  .urgency {
+    display: inline-flex; align-items: center;
+    background: rgba(0,0,0,0.6); border: 2px solid #E87722; border-radius: 999px;
+    color: #ffb347; font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 24px;
+    letter-spacing: 0.14em; text-transform: uppercase; padding: 12px 30px;
+  }
+  h1 {
+    margin-top: 44px;
+    font-family: 'Oswald', sans-serif; font-weight: 700;
+    font-size: 92px; line-height: 1.02; letter-spacing: 0.03em; text-transform: uppercase;
+    text-shadow: 0 6px 40px rgba(0,0,0,0.9);
+  }
+  h1 .orange { color: #E87722; }
+  .tagline {
+    margin-top: 20px;
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 30px; color: #ddd;
+  }
+  .bottom { margin-top: auto; display: flex; align-items: center; justify-content: space-between; }
+  .dates {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 44px; letter-spacing: 0.02em;
+    border-top: 4px solid #E87722; border-bottom: 4px solid #E87722; padding: 10px 0;
+  }
+  .dates .arrow { color: #E87722; }
+  .cta {
+    background: #E87722; border-radius: 16px; padding: 22px 36px;
+    box-shadow: 0 0 60px rgba(232,119,34,0.55);
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 34px;
+    letter-spacing: 0.05em; text-transform: uppercase; color: #000;
+  }
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="sun"></div>
+  <div class="content">
+    <div class="top">
+      <div class="badge-60">60</div>
+      <div class="urgency">⏳ Dernier appel</div>
+    </div>
+    <h1>On attend <span class="orange">ta réponse&nbsp;!</span></h1>
+    <p class="tagline">Erwan boucle l'organisation du 60 Tour — réponds en 30 secondes.</p>
+    <div class="bottom">
+      <div class="dates">28 JUIL <span class="arrow">→</span> 2 AOÛT · SARZEAU</div>
+      <div class="cta">Je réponds →</div>
+    </div>
+  </div>
+</body>
+</html>

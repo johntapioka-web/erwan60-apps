@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Relance RSVP — visuel WhatsApp 1080×1350</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,400;1,700&family=Oswald:wght@600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1350px; overflow: hidden; }
+  body {
+    background: #000;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+  }
+  /* Lueur sunset */
+  .glow {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 130% 46% at 50% 30%, rgba(232,119,34,0.5) 0%, rgba(160,70,10,0.28) 34%, rgba(26,13,2,0.1) 62%, transparent 75%),
+      linear-gradient(to bottom, rgba(0,25,60,0.18) 0%, rgba(0,0,0,0) 40%);
+  }
+  .sun {
+    position: absolute; left: 50%; top: 340px; transform: translateX(-50%);
+    width: 220px; height: 110px; border-radius: 220px 220px 0 0;
+    background: linear-gradient(to top, #ffd76e, #ffb347);
+    box-shadow: 0 0 140px 50px rgba(255,179,71,0.4);
+    opacity: 0.85;
+  }
+  .sea {
+    position: absolute; left: 0; right: 0; top: 450px; height: 3px;
+    background: linear-gradient(to right, transparent, rgba(255,215,110,0.8), transparent);
+  }
+  .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+  .badge-60 {
+    margin-top: 56px;
+    width: 150px; height: 150px; border-radius: 50%;
+    background: rgba(0,0,0,0.55);
+    border: 4px solid #E87722;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 64px; color: #E87722;
+    box-shadow: 0 0 60px rgba(232,119,34,0.5);
+  }
+  .urgency {
+    margin-top: 128px;
+    display: inline-flex; align-items: center; gap: 14px;
+    background: rgba(0,0,0,0.6);
+    border: 2px solid #E87722; border-radius: 999px;
+    color: #ffb347;
+    font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 30px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 16px 44px;
+  }
+  h1 {
+    margin-top: 28px;
+    font-family: 'Oswald', sans-serif; font-weight: 700;
+    font-size: 98px; line-height: 1.04;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    text-shadow: 0 6px 40px rgba(0,0,0,0.9);
+  }
+  h1 .orange { color: #E87722; }
+  .tagline {
+    margin-top: 22px;
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 34px; color: #ddd; letter-spacing: 0.02em;
+    max-width: 860px;
+  }
+  .info-band {
+    margin-top: 36px;
+    width: 100%;
+    background: #000;
+    border-top: 5px solid #E87722;
+    border-bottom: 5px solid #E87722;
+    padding: 30px 40px 34px;
+  }
+  .location {
+    font-family: 'Roboto', sans-serif; font-size: 25px; letter-spacing: 0.26em;
+    text-transform: uppercase; color: #fff;
+  }
+  .dates {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 68px;
+    letter-spacing: 0.02em; margin-top: 8px;
+  }
+  .dates .arrow { color: #E87722; }
+  .cta-zone { margin-top: 40px; display: flex; align-items: center; gap: 36px; }
+  .cta {
+    background: #E87722;
+    border-radius: 20px;
+    padding: 30px 44px;
+    box-shadow: 0 0 80px rgba(232,119,34,0.55);
+    text-align: center;
+  }
+  .cta .t1 {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 42px;
+    letter-spacing: 0.05em; text-transform: uppercase; color: #000;
+  }
+  .cta .t2 {
+    font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 27px;
+    color: #fff; margin-top: 10px; letter-spacing: 0.02em;
+  }
+  .qr-card {
+    background: #fff; border-radius: 16px; padding: 13px;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.6);
+  }
+  .qr-card img { display: block; width: 165px; height: 165px; }
+  .qr-card .lbl {
+    font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 15px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: #000; margin-top: 7px;
+  }
+  .footer {
+    position: absolute; bottom: 22px; left: 0; right: 0;
+    font-family: 'Roboto', sans-serif; font-size: 19px; letter-spacing: 0.28em;
+    text-transform: uppercase; color: #888;
+  }
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="sun"></div>
+  <div class="sea"></div>
+  <div class="content">
+    <div class="badge-60">60</div>
+    <div class="urgency">⏳ &nbsp;Dernier appel</div>
+    <h1>On attend<br><span class="orange">ta réponse&nbsp;!</span></h1>
+    <p class="tagline">Erwan boucle l'organisation du 60 Tour — il ne manque que toi.</p>
+    <div class="info-band">
+      <div class="location">📍 Presqu'île de Rhuys · Sarzeau, Morbihan</div>
+      <div class="dates">28 JUILLET <span class="arrow">→</span> 2 AOÛT 2026</div>
+    </div>
+    <div class="cta-zone">
+      <div class="cta">
+        <div class="t1">👉 Je réponds en 30 sec</div>
+        <div class="t2">erwan60-apps.netlify.app/reponse</div>
+      </div>
+      <div class="qr-card">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=380x380&margin=0&data=https%3A%2F%2Ferwan60-apps.netlify.app%2Freponse%2F" alt="QR code" />
+        <div class="lbl">Scanne-moi</div>
+      </div>
+    </div>
+    <div class="footer">Erwan Sixty · 60 Tour · Mer · Îles · Fête</div>
+  </div>
+</body>
+</html>
