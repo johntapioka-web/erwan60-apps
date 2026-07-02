@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>V2 story compte à rebours 1080×1920</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500;1,600&family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; }
+  body { background: #050505; color: #fff; font-family: 'Roboto', sans-serif; position: relative; }
+
+  .glow {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 130% 34% at 50% 40%, rgba(232,119,34,0.42) 0%, rgba(150,65,10,0.16) 42%, transparent 66%),
+      linear-gradient(to bottom, rgba(0,25,60,0.2), transparent 30%);
+  }
+  .sun {
+    position: absolute; left: 50%; top: 760px; transform: translateX(-50%);
+    width: 260px; height: 130px; border-radius: 260px 260px 0 0;
+    background: linear-gradient(to top, #ffd76e, #ffb347);
+    box-shadow: 0 0 160px 60px rgba(255,179,71,0.4);
+    opacity: 0.85;
+  }
+  .horizon { position: absolute; left: 0; right: 0; top: 890px; height: 3px;
+    background: linear-gradient(to right, transparent, rgba(255,215,110,0.8), transparent); }
+
+  .content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 110px 80px; }
+  .brand {
+    font-family: 'Roboto', sans-serif; font-size: 27px; letter-spacing: 0.34em;
+    text-transform: uppercase; color: #aaa;
+  }
+  .pill {
+    margin-top: 30px;
+    display: inline-flex; align-items: center;
+    border: 2px solid #E87722; border-radius: 999px;
+    color: #ffb347; background: rgba(0,0,0,0.55);
+    font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 32px;
+    letter-spacing: 0.18em; text-transform: uppercase; padding: 16px 44px;
+  }
+  .jminus {
+    margin-top: 210px;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 400px; line-height: 0.95;
+    color: #fff;
+    text-shadow: 0 10px 80px rgba(0,0,0,0.85);
+    letter-spacing: -0.01em;
+  }
+  .jminus .orange { color: #E87722; }
+  .line {
+    margin-top: 60px;
+    font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500;
+    font-size: 58px; color: #eee; line-height: 1.25;
+  }
+  .line .orange { color: #E87722; }
+  .cta {
+    margin-top: auto;
+    width: 100%;
+    background: #E87722; border-radius: 26px; padding: 42px 40px;
+    box-shadow: 0 0 110px rgba(232,119,34,0.55);
+  }
+  .cta .t1 {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 56px;
+    letter-spacing: 0.05em; text-transform: uppercase; color: #000;
+  }
+  .cta .t2 { font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 34px; color: #fff; margin-top: 12px; }
+  .footer {
+    margin-top: 44px;
+    font-family: 'Roboto', sans-serif; font-size: 24px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: #888;
+  }
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="sun"></div>
+  <div class="horizon"></div>
+  <div class="content">
+    <div class="brand">Erwan Sixty · 60 Tour</div>
+    <div class="pill">⏳ Dernier appel</div>
+    <div class="jminus">J-<span class="orange">26</span></div>
+    <p class="line">50 invités.<br>Il manque <span class="orange">ta réponse.</span></p>
+    <div class="cta">
+      <div class="t1">👉 Je réponds en 30 sec</div>
+      <div class="t2">erwan60-apps.netlify.app/reponse</div>
+    </div>
+    <div class="footer">Sarzeau · 28 juillet → 2 août 2026</div>
+  </div>
+</body>
+</html>
