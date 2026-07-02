@@ -3,8 +3,9 @@
  * Le PAT ne vit QUE dans les variables d'environnement Netlify.
  */
 
-const BASE_ID = process.env.AIRTABLE_BASE_ID || "appEkfketa401qQr7";
-const TOKEN = process.env.AIRTABLE_TOKEN;
+const BASE_ID = process.env.AIRTABLE_BASE_ID || process.env.airtable_base_id || "appEkfketa401qQr7";
+// Tolère la casse de la clé : la variable a pu être saisie en minuscules dans Netlify
+const TOKEN = process.env.AIRTABLE_TOKEN || process.env.airtable_token || process.env.Airtable_Token;
 
 const API = `https://api.airtable.com/v0/${BASE_ID}`;
 
