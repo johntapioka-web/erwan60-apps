@@ -15,6 +15,15 @@ function show(id) {
   window.scrollTo(0, 0);
 }
 
+// Badge J-XX dynamique jusqu'au 28 juillet 2026
+(function () {
+  const el = $("#jminus");
+  if (!el) return;
+  const days = Math.ceil((new Date("2026-07-28T00:00:00+02:00") - Date.now()) / 864e5);
+  if (days > 0) el.textContent = ` · J-${days}`;
+  else if (days > -6) el.textContent = " · C'est maintenant !";
+})();
+
 fetch("/.netlify/functions/rsvp")
   .then((r) => { if (!r.ok) throw 0; return r.json(); })
   .then((d) => { state.guests = d.guests; })
