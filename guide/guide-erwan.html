@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Guide Erwan — QG numérique 60 Tour</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,500;1,600&family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --orange: #E87722; --orange-soft: #ffb347;
+    --ink: #0b0b0d; --panel: #17171a; --border: #2c2c30;
+    --txt: #f2f2f2; --soft: #c9c9c9; --mute: #8f8f8f;
+  }
+  @page { size: A4; margin: 0; }
+  html, body { background: var(--ink); }
+  body { font-family: 'Roboto', sans-serif; color: var(--txt); }
+  .page {
+    width: 210mm; height: 296mm;
+    page-break-after: always;
+    position: relative; overflow: hidden;
+    background: var(--ink);
+    padding: 16mm 16mm 20mm;
+    display: flex; flex-direction: column;
+  }
+  .page:last-child { page-break-after: avoid; }
+
+  /* Décor commun */
+  .pagefoot {
+    position: absolute; bottom: 8mm; left: 16mm; right: 16mm;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 8.5pt; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mute);
+    border-top: 1px solid var(--border); padding-top: 3mm;
+  }
+  .pagefoot .o { color: var(--orange); }
+
+  h2.ptitle {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 25pt;
+    text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.08;
+  }
+  h2.ptitle .o { color: var(--orange); }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 10pt;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange-soft);
+    border: 1.5px solid var(--orange); border-radius: 999px; padding: 4px 14px;
+    margin-bottom: 6mm; width: fit-content;
+  }
+  .lead { font-size: 11.5pt; color: var(--soft); line-height: 1.55; margin-top: 4mm; }
+  .lead b { color: var(--txt); }
+
+  /* Cartes & étapes */
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    padding: 6mm; margin-top: 5mm;
+  }
+  .card h3 {
+    font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 13pt;
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3mm;
+  }
+  .card h3 .o { color: var(--orange); }
+  .step { display: flex; gap: 5mm; margin-top: 4mm; align-items: flex-start; }
+  .stepnum {
+    flex-shrink: 0; width: 9mm; height: 9mm; border-radius: 50%;
+    background: var(--orange); color: #000;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 13pt;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step .t { font-size: 10.5pt; color: var(--soft); line-height: 1.5; padding-top: 1mm; }
+  .step .t b { color: var(--txt); }
+  .step .t .o { color: var(--orange-soft); font-weight: 700; }
+
+  /* Encadré prompt */
+  .prompt {
+    margin-top: 4mm;
+    background: #120c06;
+    border: 1.5px solid var(--orange);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .prompt .phead {
+    background: var(--orange); color: #000;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 9.5pt;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 2mm 4mm;
+    display: flex; justify-content: space-between;
+  }
+  .prompt .pbody {
+    font-family: 'Roboto Mono', monospace; font-size: 8.8pt; line-height: 1.55;
+    color: #ffd9b5; padding: 4mm; white-space: pre-wrap;
+  }
+  .note {
+    margin-top: 3mm; font-size: 9.5pt; color: var(--mute); line-height: 1.5;
+    padding-left: 4mm; border-left: 2px solid var(--border);
+  }
+  .note b { color: var(--orange-soft); }
+
+  ul.clean { list-style: none; margin-top: 3mm; }
+  ul.clean li { font-size: 10.5pt; color: var(--soft); line-height: 1.6; padding-left: 6mm; position: relative; }
+  ul.clean li::before { content: "→"; color: var(--orange); position: absolute; left: 0; font-weight: 700; }
+  ul.clean li b { color: var(--txt); }
+
+  .two-col { display: flex; gap: 5mm; margin-top: 5mm; }
+  .two-col .card { flex: 1; margin-top: 0; }
+
+  /* ═══ COUVERTURE ═══ */
+  .cover { justify-content: center; align-items: center; text-align: center;
+    background: radial-gradient(ellipse 120% 50% at 50% 88%, rgba(232,119,34,0.35) 0%, rgba(120,50,8,0.12) 45%, transparent 70%), var(--ink); }
+  .cover .wm {
+    position: absolute; right: -18mm; top: -26mm;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 130mm; line-height: 1;
+    color: transparent; -webkit-text-stroke: 1mm rgba(232,119,34,0.2);
+  }
+  .cover .badge {
+    width: 26mm; height: 26mm; border-radius: 50%;
+    border: 1.2mm solid var(--orange); color: var(--orange);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 22pt;
+    background: rgba(232,119,34,0.08); margin-bottom: 10mm;
+  }
+  .cover h1 {
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 37pt;
+    text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.06;
+  }
+  .cover h1 .o { color: var(--orange); }
+  .cover .sub {
+    font-family: 'Playfair Display', serif; font-style: italic; font-size: 16pt;
+    color: var(--soft); margin-top: 6mm; max-width: 130mm;
+  }
+  .cover .meta {
+    margin-top: 12mm; font-size: 10pt; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--mute);
+  }
+  .cover .pills { display: flex; gap: 4mm; margin-top: 8mm; }
+  .cover .pill {
+    border: 1px solid var(--border); background: var(--panel); border-radius: 999px;
+    padding: 2.5mm 6mm; font-family: 'Oswald', sans-serif; font-size: 10pt;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--soft);
+  }
+
+  /* SVG diagrams */
+  .diagram { margin-top: 5mm; }
+  svg text { font-family: 'Oswald', sans-serif; }
+  svg .lbl { font-family: 'Roboto', sans-serif; }
+
+  .toc { margin-top: 8mm; }
+  .toc .row {
+    display: flex; align-items: baseline; gap: 4mm;
+    padding: 3.6mm 0; border-bottom: 1px dashed var(--border);
+  }
+  .toc .n { font-family: 'Oswald', sans-serif; font-weight: 700; color: var(--orange); font-size: 14pt; width: 10mm; }
+  .toc .t { font-size: 12pt; color: var(--txt); font-weight: 500; }
+  .toc .d { margin-left: auto; font-size: 9.5pt; color: var(--mute); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ PAGE 1 · COUVERTURE ═══════════ -->
+<div class="page cover">
+  <div class="wm">60</div>
+  <div class="badge">60</div>
+  <h1>Ton QG<br><span class="o">numérique</span></h1>
+  <p class="sub">Le guide pas-à-pas pour piloter ton 60 Tour avec Claude, WhatsApp, tes souvenirs et ta base Airtable — sans jamais rien casser.</p>
+  <div class="pills">
+    <span class="pill">📱 WhatsApp</span>
+    <span class="pill">📸 Souvenirs</span>
+    <span class="pill">🗂 Airtable</span>
+    <span class="pill">🤖 Claude</span>
+  </div>
+  <div class="meta">Erwan Sixty · 60 Tour · Sarzeau · 28 juillet → 2 août 2026</div>
+  <div class="pagefoot"><span>Guide préparé par John · DIAS</span><span class="o">Édition juillet 2026</span></div>
+</div>
+
+<!-- ═══════════ PAGE 2 · VUE D'ENSEMBLE ═══════════ -->
+<div class="page">
+  <span class="kicker">Vue d'ensemble</span>
+  <h2 class="ptitle">Quatre briques,<br>et <span class="o">toi au centre.</span></h2>
+  <p class="lead">Tout ton dispositif tient sur ce schéma. <b>Toi</b>, tu pilotes depuis ton iPhone et ton PC. <b>Claude</b> est ton copilote : tu lui colles les prompts orange de ce guide, il te donne la recette clic par clic. <b>John</b> s'occupe de toute la technique en coulisses.</p>
+
+  <div class="diagram">
+    <svg viewBox="0 0 720 400" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 z" fill="#E87722"/>
+        </marker>
+      </defs>
+      <!-- Centre Erwan -->
+      <circle cx="360" cy="200" r="62" fill="rgba(232,119,34,0.12)" stroke="#E87722" stroke-width="3"/>
+      <text x="360" y="192" text-anchor="middle" fill="#fff" font-size="21" font-weight="700">ERWAN</text>
+      <text x="360" y="216" text-anchor="middle" fill="#ffb347" font-size="13" class="lbl">iPhone + PC</text>
+      <!-- Liens -->
+      <line x1="305" y1="160" x2="185" y2="95" stroke="#E87722" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="415" y1="160" x2="535" y2="95" stroke="#E87722" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="305" y1="240" x2="185" y2="305" stroke="#E87722" stroke-width="2" marker-end="url(#ar)"/>
+      <line x1="415" y1="240" x2="535" y2="305" stroke="#E87722" stroke-width="2" marker-end="url(#ar)"/>
+      <!-- Boîtes -->
+      <g>
+        <rect x="40" y="38" width="230" height="76" rx="12" fill="#17171a" stroke="#2c2c30" stroke-width="1.5"/>
+        <text x="155" y="68" text-anchor="middle" fill="#fff" font-size="16" font-weight="600">📱 WHATSAPP</text>
+        <text x="155" y="92" text-anchor="middle" fill="#8f8f8f" font-size="12" class="lbl">2 groupes : annonces invités + bénévoles</text>
+      </g>
+      <g>
+        <rect x="450" y="38" width="230" height="76" rx="12" fill="#17171a" stroke="#2c2c30" stroke-width="1.5"/>
+        <text x="565" y="68" text-anchor="middle" fill="#fff" font-size="16" font-weight="600">📸 SOUVENIRS</text>
+        <text x="565" y="92" text-anchor="middle" fill="#8f8f8f" font-size="12" class="lbl">Album Google Photos + boîte à témoignages</text>
+      </g>
+      <g>
+        <rect x="40" y="286" width="230" height="76" rx="12" fill="#17171a" stroke="#2c2c30" stroke-width="1.5"/>
+        <text x="155" y="316" text-anchor="middle" fill="#fff" font-size="16" font-weight="600">🗂 AIRTABLE + APPS</text>
+        <text x="155" y="340" text-anchor="middle" fill="#8f8f8f" font-size="12" class="lbl">La base erwan60tour + les 2 apps déjà en ligne</text>
+      </g>
+      <g>
+        <rect x="450" y="286" width="230" height="76" rx="12" fill="#17171a" stroke="#E87722" stroke-width="2"/>
+        <text x="565" y="316" text-anchor="middle" fill="#fff" font-size="16" font-weight="600">🤖 CLAUDE DESKTOP</text>
+        <text x="565" y="340" text-anchor="middle" fill="#ffb347" font-size="12" class="lbl">Ton copilote — les prompts sont dans ce guide</text>
+      </g>
+      <!-- Invités -->
+      <text x="360" y="30" text-anchor="middle" fill="#8f8f8f" font-size="13" class="lbl">～ 50 invités · 22 missions · 6 jours de fête ～</text>
+    </svg>
+  </div>
+
+  <div class="toc">
+    <div class="row"><span class="n">1</span><span class="t">Tes deux groupes WhatsApp</span><span class="d">page 3</span></div>
+    <div class="row"><span class="n">2</span><span class="t">Le coffre à souvenirs (photos, vidéos, témoignages)</span><span class="d">page 4</span></div>
+    <div class="row"><span class="n">3</span><span class="t">Ta base Airtable et tes deux apps en ligne</span><span class="d">page 5</span></div>
+    <div class="row"><span class="n">4</span><span class="t">Claude, ton copilote : le mode d'emploi</span><span class="d">page 6</span></div>
+    <div class="row"><span class="n">5</span><span class="t">Ton planning jusqu'au jour J (et après)</span><span class="d">page 7</span></div>
+  </div>
+
+  <div class="pagefoot"><span>Erwan Sixty · 60 Tour</span><span class="o">Page 2</span></div>
+</div>
+
+<!-- ═══════════ PAGE 3 · WHATSAPP ═══════════ -->
+<div class="page">
+  <span class="kicker">Brique 1 · Sur ton iPhone</span>
+  <h2 class="ptitle">Tes deux groupes <span class="o">WhatsApp</span></h2>
+  <p class="lead">Deux groupes, deux usages : un <b>canal d'annonces</b> où toi seul écris (les invités ne peuvent pas répondre → zéro brouhaha), et un <b>groupe d'équipe</b> pour tes bénévoles où tout le monde discute.</p>
+
+  <div class="card">
+    <h3><span class="o">A.</span> Ce que tu vas créer</h3>
+    <ul class="clean">
+      <li><b>« 🎉 Erwan Sixty · Annonces »</b> — les ~50 invités · réglage « seuls les admins envoient des messages »</li>
+      <li><b>« 🛠 Erwan Sixty · Équipe »</b> — les bénévoles missions · discussion libre</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="o">B.</span> Comment faire</h3>
+    <div class="step"><div class="stepnum">1</div><div class="t">Ouvre <b>Claude Desktop</b> sur ton PC (l'icône orange ✳ que John a installée).</div></div>
+    <div class="step"><div class="stepnum">2</div><div class="t">Colle d'abord ton <b>prompt de contexte</b> (page 6) — à faire au début de <span class="o">chaque</span> conversation.</div></div>
+    <div class="step"><div class="stepnum">3</div><div class="t">Puis colle le prompt orange ci-dessous. Claude te guide clic par clic, ton iPhone à la main.</div></div>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span>Prompt à copier-coller</span><span>📱 groupes whatsapp</span></div>
+    <div class="pbody">Je dois créer mes 2 groupes WhatsApp depuis mon iPhone :
+1. « 🎉 Erwan Sixty · Annonces » pour mes ~50 invités — je veux que SEULS les admins puissent écrire (canal d'information silencieux).
+2. « 🛠 Erwan Sixty · Équipe » pour mes bénévoles — discussion libre.
+
+Guide-moi CLIC PAR CLIC sur iPhone, une étape à la fois, en attendant que je te dise « ok » avant de passer à la suivante :
+- créer chaque groupe et son icône,
+- activer le réglage « seuls les admins » sur le groupe 1,
+- générer le lien d'invitation de chaque groupe pour l'envoyer par SMS/WhatsApp.
+
+Rédige-moi aussi les 2 messages de bienvenue (ton chaleureux, mes couleurs tango et noir, mentionne le lien pour choisir sa mission : erwan60-apps.netlify.app/missions).</div>
+  </div>
+
+  <p class="note"><b>Astuce :</b> épingle les deux groupes en haut de WhatsApp (appui long → Épingler). Dans « Annonces », un message par jour maximum : c'est ce qui garantit que tout le monde les lit.</p>
+
+  <div class="pagefoot"><span>Erwan Sixty · 60 Tour</span><span class="o">Page 3</span></div>
+</div>
+
+<!-- ═══════════ PAGE 4 · SOUVENIRS ═══════════ -->
+<div class="page">
+  <span class="kicker">Brique 2 · Photos, vidéos, témoignages</span>
+  <h2 class="ptitle">Le coffre à <span class="o">souvenirs</span></h2>
+  <p class="lead">Deux outils, chacun son rôle. <b>Pourquoi pas un dossier Google Drive ?</b> Parce que Drive oblige tes invités à avoir un compte Google pour déposer — beaucoup bloqueront. Voici le duo qui marche pour tout le monde :</p>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>📸 <span class="o">Album Google Photos</span></h3>
+      <ul class="clean">
+        <li>Pour les <b>photos et vidéos</b> pendant et après la semaine</li>
+        <li>Chacun ajoute depuis son téléphone via un simple lien</li>
+        <li>Gratuit, illimité en pratique, tout le monde connaît</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📥 <span class="o">Dropbox « File Request »</span></h3>
+      <ul class="clean">
+        <li>Pour les <b>témoignages vidéo surprises</b> avant l'événement</li>
+        <li>Dépôt <b>sans aucun compte</b> : on clique, on envoie</li>
+        <li>Toi seul vois ce qui est déposé — la surprise reste entière</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span>Prompt à copier-coller</span><span>📸 album photos</span></div>
+    <div class="pbody">Guide-moi clic par clic pour créer un album partagé Google Photos nommé « Erwan Sixty · Souvenirs » depuis mon PC (j'ai un compte Google) :
+- activer le partage par lien pour que mes invités puissent AJOUTER leurs photos/vidéos,
+- récupérer ce lien,
+- rédiger le message WhatsApp d'annonce pour mon groupe « Annonces » (avec le lien), à envoyer le premier jour de l'événement.
+Une étape à la fois, attends mon « ok » entre chaque.</div>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span>Prompt à copier-coller</span><span>📥 boîte à témoignages</span></div>
+    <div class="pbody">Guide-moi clic par clic pour créer un compte Dropbox gratuit puis une « demande de fichiers » (File Request) nommée « Un mot pour Erwan 🎬 » :
+- mes invités doivent pouvoir déposer une vidéo SANS créer de compte,
+- moi seul dois voir les fichiers déposés,
+- donne-moi le message discret à envoyer à quelques proches complices (PAS dans le grand groupe !) pour collecter des témoignages vidéo surprises avant le 25 juillet.
+Une étape à la fois, attends mon « ok » entre chaque.</div>
+  </div>
+
+  <p class="note"><b>Règle d'or :</b> le lien de l'album ne se partage <b>que</b> dans le groupe WhatsApp des invités — jamais sur les réseaux sociaux publics.</p>
+
+  <div class="pagefoot"><span>Erwan Sixty · 60 Tour</span><span class="o">Page 4</span></div>
+</div>
+
+<!-- ═══════════ PAGE 5 · AIRTABLE + APPS ═══════════ -->
+<div class="page">
+  <span class="kicker">Brique 3 · Ta tour de contrôle</span>
+  <h2 class="ptitle">Airtable + tes deux <span class="o">apps en ligne</span></h2>
+  <p class="lead"><b>Important :</b> tout existe déjà, il n'y a <b>rien à créer</b>. La base « erwan60tour » est prête, et deux applications web sont déjà en ligne et branchées dessus. Ton rôle : consulter, diffuser les liens, et suivre les réponses qui tombent toutes seules.</p>
+
+  <div class="card">
+    <h3>🌐 Tes deux apps (à diffuser aux invités)</h3>
+    <ul class="clean">
+      <li><b>erwan60-apps.netlify.app/reponse</b> — l'invité confirme sa venue en 30 secondes (sa réponse + son téléphone arrivent seuls dans ta base, colonne « Réponse relance »)</li>
+      <li><b>erwan60-apps.netlify.app/missions</b> — l'invité choisit sa mission coup de main parmi les 22 tâches (la base se met à jour toute seule, les places se décomptent)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>⚠️ La seule règle qui compte</h3>
+    <ul class="clean">
+      <li>Tu peux <b>tout regarder</b> et modifier le contenu des cases (un téléphone, une note…)</li>
+      <li>Tu ne <b>supprimes jamais</b> une colonne, une table ou une vue — les apps en dépendent. Un doute ? Tu demandes à Claude ou à John d'abord.</li>
+    </ul>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span>Prompt à copier-coller</span><span>🗂 visite guidée airtable</span></div>
+    <div class="pbody">Agis comme un formateur Airtable très patient. Je suis invité en tant qu'éditeur sur la base « erwan60tour » (l'anniversaire de mes 60 ans). Je l'ouvre dans mon navigateur.
+1. Fais-moi la visite guidée : à quoi servent les tables Invités, Taches help, Dépenses, Logements, Planning Journées.
+2. Montre-moi comment lire les réponses de mes invités : colonne « Réponse relance » et « Téléphone » dans la table Invités.
+3. Montre-moi comment voir quelles missions sont prises ou libres dans « Taches help ».
+INTERDIT de me faire supprimer ou renommer des colonnes, tables ou vues — des applications en ligne dépendent de cette structure. Une étape à la fois, attends mon « ok ».</div>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span>Prompt à copier-coller</span><span>📊 point hebdo</span></div>
+    <div class="pbody">Je vais te coller la liste de mes invités avec leur statut de réponse (copiée depuis Airtable). Aide-moi à :
+1. compter les oui / non / sans réponse,
+2. lister qui relancer en priorité,
+3. rédiger un message de relance gentil et personnel à envoyer en privé (pas dans le groupe).
+Voici la liste : [COLLE ICI]</div>
+  </div>
+
+  <div class="pagefoot"><span>Erwan Sixty · 60 Tour</span><span class="o">Page 5</span></div>
+</div>
+
+<!-- ═══════════ PAGE 6 · CLAUDE MODE D'EMPLOI ═══════════ -->
+<div class="page">
+  <span class="kicker">Brique 4 · Ton copilote</span>
+  <h2 class="ptitle">Claude : le <span class="o">mode d'emploi</span></h2>
+  <p class="lead">Claude est comme un assistant très compétent mais qui ne te connaît pas encore. <b>Le secret :</b> au début de chaque nouvelle conversation, colle d'abord ce prompt de contexte. Ensuite seulement, pose ta question ou colle un prompt des pages précédentes.</p>
+
+  <div class="prompt">
+    <div class="phead"><span>⭐ LE prompt de contexte — à coller en premier, à chaque fois</span><span>🤖</span></div>
+    <div class="pbody">Tu es mon copilote personnel pour l'organisation de mes 60 ans.
+
+CONTEXTE : « Erwan Sixty · 60 Tour de la Presqu'île de Rhuys » — Sarzeau (Morbihan), du mardi 28 juillet au dimanche 2 août 2026 (6 jours : mer, îles, vélo, sport, fête — couleurs tango et noir du FC Lorient). Environ 50 invités, 22 missions bénévoles.
+
+MES OUTILS : un iPhone (WhatsApp), un PC Windows avec Claude Desktop et un navigateur. Une base Airtable « erwan60tour » dont je suis éditeur. Deux applications web déjà en ligne : erwan60-apps.netlify.app/reponse (confirmations) et /missions (choix des missions). Un album Google Photos et une boîte Dropbox pour les souvenirs.
+
+MON CO-ORGANISATEUR : John (DIAS) gère toute la technique. Ne me fais JAMAIS modifier la structure d'Airtable ni toucher au code des applications.
+
+MA FAÇON DE TRAVAILLER : je débute avec le numérique. Réponds toujours en français, avec des étapes numérotées, clic par clic, une seule action à la fois, des mots simples. Après chaque étape, attends que je te dise « ok » avant de continuer. Si je semble perdu, reformule plus simplement.</div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>✅ Les bons réflexes</h3>
+      <ul class="clean">
+        <li>Une <b>nouvelle conversation</b> par sujet (bouton +)</li>
+        <li>Colle le contexte, <b>puis</b> ta question</li>
+        <li>Réponds « ok » entre chaque étape</li>
+        <li>Perdu ? Écris simplement : <b>« je suis perdu, reprends plus doucement »</b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🚫 À ne jamais faire</h3>
+      <ul class="clean">
+        <li>Coller un <b>mot de passe</b> dans la conversation</li>
+        <li>Supprimer quoi que ce soit dans Airtable</li>
+        <li>Partager les liens des apps hors du cercle des invités</li>
+        <li>Hésiter à appeler John si ça coince 😉</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="note"><b>Pour aller plus loin (optionnel) :</b> John peut connecter Airtable directement à Claude (menu Réglages → Connecteurs) — Claude pourra alors lire ta base tout seul, sans copier-coller. À faire ensemble lors d'une session.</p>
+
+  <div class="pagefoot"><span>Erwan Sixty · 60 Tour</span><span class="o">Page 6</span></div>
+</div>
+
+<!-- ═══════════ PAGE 7 · PLANNING ═══════════ -->
+<div class="page">
+  <span class="kicker">Le tempo</span>
+  <h2 class="ptitle">Ton planning jusqu'au <span class="o">jour J</span></h2>
+
+  <div class="diagram">
+    <svg viewBox="0 0 720 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <line x1="30" y1="75" x2="690" y2="75" stroke="#2c2c30" stroke-width="3"/>
+      <line x1="30" y1="75" x2="470" y2="75" stroke="#E87722" stroke-width="3"/>
+      <g>
+        <circle cx="60" cy="75" r="9" fill="#E87722"/>
+        <text x="60" y="50" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">CETTE SEMAINE</text>
+        <text x="60" y="105" text-anchor="middle" fill="#8f8f8f" font-size="11" class="lbl">groupes + album</text>
+      </g>
+      <g>
+        <circle cx="205" cy="75" r="9" fill="#E87722"/>
+        <text x="205" y="50" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">≈ 10 JUILLET</text>
+        <text x="205" y="105" text-anchor="middle" fill="#8f8f8f" font-size="11" class="lbl">relance retardataires</text>
+      </g>
+      <g>
+        <circle cx="340" cy="75" r="9" fill="#E87722"/>
+        <text x="340" y="50" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">20 JUILLET</text>
+        <text x="340" y="105" text-anchor="middle" fill="#8f8f8f" font-size="11" class="lbl">clôture réponses + missions</text>
+      </g>
+      <g>
+        <circle cx="470" cy="75" r="11" fill="#fff" stroke="#E87722" stroke-width="3"/>
+        <text x="470" y="48" text-anchor="middle" fill="#ffb347" font-size="14" font-weight="700">28 JUIL → 2 AOÛT</text>
+        <text x="470" y="105" text-anchor="middle" fill="#8f8f8f" font-size="11" class="lbl">LE 60 TOUR 🎉</text>
+      </g>
+      <g>
+        <circle cx="590" cy="75" r="9" fill="#2c2c30" stroke="#8f8f8f" stroke-width="2"/>
+        <text x="590" y="50" text-anchor="middle" fill="#c9c9c9" font-size="13" font-weight="600">J+3</text>
+        <text x="590" y="105" text-anchor="middle" fill="#8f8f8f" font-size="11" class="lbl">rappel dépôt photos</text>
+      </g>
+      <g>
+        <circle cx="670" cy="75" r="9" fill="#2c2c30" stroke="#8f8f8f" stroke-width="2"/>
+        <text x="670" y="50" text-anchor="middle" fill="#c9c9c9" font-size="13" font-weight="600">J+15</text>
+        <text x="670" y="105" text-anchor="middle" fill="#8f8f8f" font-size="11" class="lbl">best-of souvenir</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="card">
+    <h3>📋 Ta checklist de la semaine</h3>
+    <ul class="clean">
+      <li>☐ Créer les 2 groupes WhatsApp (page 3) et inviter tout le monde</li>
+      <li>☐ Créer l'album Google Photos + la boîte Dropbox (page 4)</li>
+      <li>☐ Envoyer dans « Annonces » : bienvenue + lien <b>/reponse</b> + lien <b>/missions</b></li>
+      <li>☐ Envoyer discrètement la boîte à témoignages aux complices</li>
+      <li>☐ Faire ta visite guidée Airtable avec Claude (page 5)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🔁 Puis, chaque semaine (10 minutes)</h3>
+    <ul class="clean">
+      <li>Ouvrir Airtable → table <b>Invités</b> → regarder les nouvelles réponses</li>
+      <li>Coller la liste dans Claude avec le prompt « point hebdo » (page 5)</li>
+      <li>Envoyer une annonce dans le groupe (programme, ambiance, rappel missions)</li>
+    </ul>
+  </div>
+
+  <div class="card" style="border-color:#E87722">
+    <h3>🆘 Si ça coince</h3>
+    <ul class="clean">
+      <li>Dis à Claude : <b>« je suis perdu, reprends plus doucement »</b> — ça marche vraiment</li>
+      <li>Rien de ce que tu fais dans ce guide ne peut casser quoi que ce soit</li>
+      <li>Le joker : <b>John</b> 📞 — la technique, c'est son affaire</li>
+    </ul>
+  </div>
+
+  <div class="pagefoot"><span>Erwan Sixty · 60 Tour · Guide préparé par John (DIAS) avec Claude</span><span class="o">Page 7 · Bon 60 Tour ! 🚴</span></div>
+</div>
+
+</body>
+</html>
